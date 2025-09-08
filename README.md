@@ -16,8 +16,8 @@ LMS values and percentile curves for children and adults can be found at [the fo
 ## Instructions
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone [<repository-url>](https://github.com/irenecamper/LMS-zscore-calculator.git)
+   cd LMS-zscore-calculator
    ```
 
 2. **Prepare the input data**: The filename should be something like `output_example_filename.csv` and it should contain the column names `age`, `gender` (0 for males, 1 for females), antropological measures you wish to calculate the Z-scores for, e.g. `FMI`. It is crucial that the column names have the same names.
