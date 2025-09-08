@@ -2,7 +2,7 @@
 This repository contains R code for calculating Z-scores from measurement data based on age and gender-specific reference values. It supports both CSV and Excel input formats and generates an updated dataset with the calculated Z-scores.
 
 ## Overview
-The R code, along with necessary data files, enables the calculation of Z-scores from anthropometric measurement data using LMS model outputs adapted from the Austrian LEAD Study. This adaptation derives from the scientific LMS Z-Score App, which utilizes LMS methodology originally implemented in Python. The data files are sourced from resources in the original repository.
+The R code, along with necessary data files, enables the calculation of Z-scores from anthropometric measurement data using LMS model outputs adapted from the Austrian LEAD Study. This adaptation derives from [the scientific LMS Z-Score App](https://github.com/FlorianKrach/scientific-LMS-zscore-app), which utilizes LMS methodology originally implemented in Python. The data files are sourced from resources in the original repository.
 
 ## Requirements
 - **R**: Version 4.0 or higher recommended
@@ -11,7 +11,7 @@ The R code, along with necessary data files, enables the calculation of Z-scores
   - `readxl`
 
 ## Data
-LMS values and percentile curves for children and adults can be found at the following link: [LMS Z-Score App Data]. The relevant outputs have been saved in the `data/` folder in this repository.
+LMS values and percentile curves for children and adults can be found at [the following link: [LMS Z-Score App Data]](https://github.com/FlorianKrach/scientific-LMS-zscore-app/tree/master/data). The relevant outputs have been saved in the `data/` folder in this repository.
 
 ## Instructions
 1. **Clone the repository**:
