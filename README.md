@@ -16,7 +16,7 @@ LMS values and percentile curves for children and adults can be found at [the fo
 ## Instructions
 1. **Clone the repository**:
    ```bash
-   git clone [<repository-url>](https://github.com/irenecamper/LMS-zscore-calculator.git)
+   git clone https://github.com/irenecamper/LMS-zscore-calculator.git
    cd LMS-zscore-calculator
    ```
 
