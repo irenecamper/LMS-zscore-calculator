@@ -1,8 +1,8 @@
 # LMS-zscore-calculator
-This repository contains R code for calculating Z-scores from measurement data based on age and gender-specific reference values. It supports both CSV and Excel input formats and generates an updated dataset with the calculated Z-scores.
+This repository contains R code for calculating Z-scores from measurement data based on age and gender-specific reference values. It supports both CSV and Excel input formats and generates an updated data set with the calculated Z-scores.
 
 ## Overview
-The R code, along with necessary data files, enables the calculation of Z-scores from anthropometric measurement data using LMS model outputs adapted from the Austrian LEAD Study. This adaptation derives from [the scientific LMS Z-Score App](https://github.com/FlorianKrach/scientific-LMS-zscore-app), which utilizes LMS methodology originally implemented in Python. The data files are sourced from resources in the original repository.
+The R code, along with necessary data files, enables the calculation of Z-scores from anthropocentric measurement data using LMS model outputs adapted from the Austrian LEAD Study. This adaptation derives from [the scientific LMS Z-Score App](https://github.com/FlorianKrach/scientific-LMS-zscore-app), which utilizes LMS methodology originally implemented in Python. The data files are sourced from resources in the original repository.
 
 ## Requirements
 - **R**: Version 4.0 or higher recommended
@@ -20,7 +20,7 @@ LMS values and percentile curves for children and adults can be found at [the fo
    cd LMS-zscore-calculator
    ```
 
-2. **Prepare the input data**: The filename should be something like `output_example_filename.csv` and it should contain the column names `age`, `gender` (0 for males, 1 for females), antropological measures you wish to calculate the Z-scores for, e.g. `FMI`. It is crucial that the column names have the same names.
+2. **Prepare the input data**: The file name should be something like `output_example_filename.csv` and it should contain the column names `age`, `gender` (0 for males, 1 for females), anthropological measures you wish to calculate the Z-scores for, e.g. `FMI`. It is crucial that the column names have the same names.
    
 4. **Run the Script**: Use the following command to run the R script that computes Z-scores:
   ```r
