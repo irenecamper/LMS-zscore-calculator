@@ -1,7 +1,10 @@
 library(readxl)
 library(dplyr)
+library(ggplot2)
+library(tidyr)
 
 source("compute_zscores.R")
+source("create_plot.R")
 
 # Read data
 dxa_path <- "/Volumes/auditing-groupdirs/SUN-CBMR-HOLBAEK/database freeze/2023_March/DXA-scans_ALL/dexa_sub.v.03.2023.xlsx"
@@ -24,3 +27,7 @@ dxa_data <- readxl::read_excel(dxa_path, col_names = TRUE) %>%
 
 # Compute zscores
 dxa_data_new = compute_zscores_file(data = dxa_data)
+
+# Generate plot
+plot <- create_plot(age_group = "children", value = "percent_FM", gender = 0)
+plot
