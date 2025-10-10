@@ -1,30 +1,26 @@
 library(dplyr)
-library(readxl)
 
 # This function computes Z-scores for specified measurements based on
 # the reference values extracted from an age- and gender-specific LMS_data reference
-# files. It reads in measurement data from a CSV or Excel file, processes it
+# files in data/. It takes as input the reference data, processes it
 # according to specified age groups and genders, and outputs an updated data
 # frame with the computed Z-scores.
+# column names for this function to work should be:
+## gender : male (0) or female (1)
+## age
+## percent_FM
+## FMI
+## LMI
+## appendicular_LMI
+## ...
 
-compute_zscores_file <- function(filename = "example_file.xlsx",
+compute_zscores_file <- function(data,
                                  datapath = "data/",
                                  min_age = 6.0,
                                  max_age = 82.0,
                                  child_adult_split = 18.0,
-                                 eps = 0.001) {
-  # Read the with the measurements for which we want to generate the
-  # Z-scores from. either csv or xlsx format.
-  data <- tryCatch(
-    {
-      readxl::read_excel(filename, col_names = TRUE)
-    },
-    error = function(e) {
-      read.csv(filename)
-    }
-  )
-
-  # Check if "age" and "gender" exist in data
+                                 eps = 0.001
+                                ) {
   if (!("age" %in% colnames(data)) || !("gender" %in% colnames(data))) {
     stop(sprintf("File does not have the columns: age and gender"))
   }
@@ -32,7 +28,7 @@ compute_zscores_file <- function(filename = "example_file.xlsx",
   # Loop through each column in the data frame
   for (value in colnames(data)) {
     # Check if the column is not one of the measurements of interest
-    if (!(value %in% c("age", "gender", "ID"))) {
+    if (!(value %in% c("age", "gender", "PATID"))) {
       # Print the measurement being processed
       cat(sprintf("Computing zscores for: %s\n", value))
       # Create new column name
@@ -90,10 +86,8 @@ compute_zscores_file <- function(filename = "example_file.xlsx",
       }
     }
   }
-
+  return(data)
   # Save the updated data frame to a new CSV file
-  output_filename <- paste0("output_", tools::file_path_sans_ext(basename(filename)), ".csv")
-  write.csv(data, output_filename)
+  # output_filename <- paste0("output_", tools::file_path_sans_ext(basename(filename)), ".csv")
+  # write.csv(data, output_filename)
 }
-
-compute_zscores_file(filename = "example_file.xlsx")
