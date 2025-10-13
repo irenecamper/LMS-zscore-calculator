@@ -2,7 +2,7 @@
 This repository contains R code for calculating Z-scores from measurement data based on age and gender-specific reference values.
 
 ## Overview
-The script `zscore_caluclation_script.R` computes standardized Z-scores for DXA-based measurements using LMS model outputs adapted from the Austrian LEAD Study.
+The script `zscore_calculation_script.R` computes standardized Z-scores for DXA-based measurements using LMS model outputs adapted from the Austrian LEAD Study. It also allows visualization of the reference percentile curves for any measurement, age group, and gender, using the provided `create_plot()` function.
 
 The approach derives from [the scientific LMS Z-Score App](https://github.com/FlorianKrach/scientific-LMS-zscore-app), which utilizes LMS methodology originally implemented in Python. The data files are sourced from resources in the original repository.
 
