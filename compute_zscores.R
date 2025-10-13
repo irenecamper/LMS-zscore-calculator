@@ -51,9 +51,9 @@ compute_zscores_file <- function(data,
 
             # Determine the reference file based on age and gender
             if (age_int[1] == min_age) {
-              LMS_data_file_name <- paste0("data/children_LMS_", value, "_gender", as.character(gender), ".csv")
+              LMS_data_file_name <- paste0(datapath, "children_LMS_", value, "_gender", as.character(gender), ".csv")
             } else {
-              LMS_data_file_name <- paste0("data/adults_LMS_", value, "_gender", as.character(gender), ".csv")
+              LMS_data_file_name <- paste0(datapath, "adults_LMS_", value, "_gender", as.character(gender), ".csv")
             }
 
             if (file.exists(LMS_data_file_name)) {
@@ -87,7 +87,4 @@ compute_zscores_file <- function(data,
     }
   }
   return(data)
-  # Save the updated data frame to a new CSV file
-  # output_filename <- paste0("output_", tools::file_path_sans_ext(basename(filename)), ".csv")
-  # write.csv(data, output_filename)
 }

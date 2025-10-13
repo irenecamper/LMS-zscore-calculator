@@ -1,12 +1,8 @@
 
-# Plot with ggplot2
-create_plot <- function(age_group = "children", value = "percent_FM", gender = 0) {
+create_plot <- function(ref_data_path = "../data/", age_group = "children", value = "percent_FM", gender = 0) {
 
-  reference_filename <- paste0("../data/", age_group, "_LMS_", value, "_gender", as.character(gender), ".csv")[1]
+  reference_filename <- paste0(ref_data_path, age_group, "_LMS_", value, "_gender", as.character(gender), ".csv")[1]
 
-  gender_label <- ifelse(gender == 0, "female", "male")
-
-  title <- paste(value, "--", age_group, "--", gender_label)
   label_map <- c(
     p3  = "3 %",
     p10 = "10 %",
@@ -16,6 +12,32 @@ create_plot <- function(age_group = "children", value = "percent_FM", gender = 0
     p90 = "90 %",
     p97 = "97 %"
   )
+
+    value_map <- c(
+    "FMI"                        = "Fat Mass Index",
+    "LMI"                        = "Lean Mass Index",
+    "FM_trunk_quotient_limb"     = "FM Trunk Quotient Limb",
+    "FM_android_quotient_gynoid" = "FM Android/Gynoid Quotient",
+    "appendicular_LMI"            = "Appendicular LMI",
+    "percent_FM"                  = "Percent FM",
+    "VAT_mass"                    = "VAT Mass",
+    "fitted_FMI"                  = "Fitted FMI",
+    "fitted_LMI"                  = "Fitted LMI",
+    "fitted_BMI"                  = "Fitted BMI",
+    "fitted_ALMI"                 = "Fitted ALMI",
+    "BMI"                         = "BMI",
+    "height"                      = "Height",
+    "weight"                      = "Weight"
+  )
+
+  # Gender mapping
+  gender_map <- c("0" = "Female", "1" = "Male")
+
+  # Age group mapping
+  age_group_map <- c("children" = "Children", "adults" = "Adults")
+
+  title <- paste(value_map[value], "--", age_group_map[age_group], "--", gender_map[as.character(gender)])
+
   # Read the CSV file
   if (file.exists(reference_filename)) {
     data_long <- read.csv(reference_filename) %>%
@@ -35,21 +57,23 @@ create_plot <- function(age_group = "children", value = "percent_FM", gender = 0
       values_to = "value"
     )
 
-    # Plot with ggplot2
+    # Plot
     ggplot(data_long, aes(x = age, y = value, color = percentile)) +
-      geom_line(size = 0.2) +
+      geom_line(linewidth = 0.2) +
       geom_text(
         data = data_long %>% group_by(percentile) %>% slice_max(age, n = 1),
         aes(label = label_map[percentile]),  # use mapped labels
-        size = 6
+        size = 6,
+        hjust = -0.2
       ) +
       scale_color_manual(
         values = rep("blue", 7)  # all lines same color
       ) +
-      scale_x_continuous(breaks = seq(min(data_long$age), max(data_long$age), by = 4)) +
+      scale_x_continuous(breaks = seq(min(data_long$age), max(data_long$age), by = (max(data_long$age) - min(data_long$age))/4),
+                         limits = c(min(data_long$age), max(data_long$age) + (max(data_long$age) - min(data_long$age))/8)) +
       labs(
       title = title,
-      x = "age (years)",
+      x = "Age (years)",
       y = value
     ) +
     theme_bw() +
@@ -61,10 +85,10 @@ create_plot <- function(age_group = "children", value = "percent_FM", gender = 0
       legend.position = "none",
       axis.title = element_text(size = 24),
       axis.text = element_text(size = 24),
-      axis.title.y = element_blank()
+      axis.title.y = element_blank(),
+      aspect.ratio = 1/2
     )
   } else {
-  
   # Display empty plot
   ggplot() +
     labs(
@@ -73,7 +97,8 @@ create_plot <- function(age_group = "children", value = "percent_FM", gender = 0
     theme_bw() +
     theme(
       text = element_text(size = 24),
-      plot.title = element_text(size = 24, hjust = 0.5)
+      plot.title = element_text(size = 24, hjust = 0.5),
+      aspect.ratio = 1/2
     )
   }
 }
