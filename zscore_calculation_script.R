@@ -30,8 +30,9 @@ dxa_data <- readxl::read_excel(dxa_path, col_names = TRUE) %>%
     FM_leg     = `Ben Fedtmasse`,
     FM_trunk   = `Truncus diff Fedtmasse`
   ) %>%
-  ## Recode gender
+  ## Recode gender and height to cm
   dplyr::mutate(
+    height_m = height / 100,
     gender = dplyr::case_when(
       gender == 1 ~ 0,  # male (1) --> 0 
       gender == 2 ~ 1,  # male (2) --> 1
@@ -40,11 +41,11 @@ dxa_data <- readxl::read_excel(dxa_path, col_names = TRUE) %>%
   ) %>%
   ## Compute derived body composition variables
   dplyr::mutate(
-    FMI                    = FM / (height^2),
+    FMI                    = FM / (height_m^2),
     FM_trunk_quotient_limb = FM_trunk / (FM_arm + FM_leg),
-    LMI                    = LM / (height^2),
-    appendicular_LMI       = (LM_arm + LM_leg) / (height^2),
-    BMI                    = weight / (height^2),
+    LMI                    = LM / (height_m^2),
+    appendicular_LMI       = (LM_arm + LM_leg) / (height_m^2),
+    BMI                    = weight / (height_m^2),
     # fitted_FMI             = FM / (height^x_fm),
     # fitted_LMI             = LM / (height^x_lm),
     # fitted_ALMI            = (LM_arm + LM_leg) / (height^x_alm),
@@ -57,6 +58,8 @@ dxa_data <- readxl::read_excel(dxa_path, col_names = TRUE) %>%
     FM_trunk_quotient_limb,
     LMI,
     appendicular_LMI,
+    BMI,
+    FMI,
     # fitted_FMI,
     # fitted_BMI,
     # fitted_ALMI,
