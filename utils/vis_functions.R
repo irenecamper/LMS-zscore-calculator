@@ -4,8 +4,9 @@ measurement_map <- c( "FMI" = "Fat Mass Index (kg/m²)", "LMI" = "Lean Mass Inde
 gender_map <- c("0" = "Female", "1" = "Male")
 age_group_map <- c("children" = "Children", "adults" = "Adults")
 
-
-#' Generates percentile curves for a specified body composition measurement
+#' Plot percentile curves
+#' 
+#' `plot_percentile_curves` generates percentile curves for a specified body composition measurements
 #' (e.g., Fat Mass Index, Lean Mass Index, Percent Fat Mass) across different ages,
 #' stratified by gender and age group. It uses precomputed LMS (Lambda-Mu-Sigma) reference
 #' data stored as CSV files and visualizes the curves for the 3%, 10%, 25%, 50%, 75%, 90%, and 97% percentiles.

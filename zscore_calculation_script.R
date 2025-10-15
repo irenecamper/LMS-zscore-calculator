@@ -5,8 +5,8 @@ library(ggplot2)
 library(tidyr)
 
 # --- Load DXA data and external functions --------------------------------------
-source("utils/load_data.R")
-source("utils/compute_zscores.R")
+source("load_data.R")
+source("compute_zscores.R")
 
 # --- Compute zscores -----------------------------------------------------------
 # dxa_data_new will contain the original columns `value` + the corresponding 

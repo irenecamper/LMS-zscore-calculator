@@ -6,7 +6,7 @@ library(ggplot2)
 library(tidyr)
 
 # --- Load DXA data and external functions --------------------------------------
-source("utils/vis_functions.R")
+source("vis_functions.R")
 
 plot_percentile_curves(ref_data_path = "LMS_data/",
                                           age_group = "children",
