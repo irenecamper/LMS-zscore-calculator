@@ -43,13 +43,13 @@ dxa_data <- readxl::read_excel(dxa_path, col_names = TRUE) %>%
     FMI                    = FM / ((height / 100)^2), ## FMI (kg/m^2)
     FM_trunk_quotient_limb = FM_trunk / (FM_arm + FM_leg), ## FM_trunk_quotient_limb
     LMI                    = LM / ((height / 100)^2), ## LMI (kg/m^2)
-    appendicular_LMI       = (LM_arm + LM_leg) / (height_m^2), ## appendicular_LMI (kg/m^2)
+    appendicular_LMI       = (LM_arm + LM_leg) / ((height / 100)^2), ## appendicular_LMI (kg/m^2)
     BMI                    = weight / ((height / 100)^2) ## BMI (kg/m^2)
-    # fitted_FMI             = FM / ((height/100)^x_fm),                  ## fitted_FMI (kg/m^x_fm)
-    # fitted_LMI             = LM / ((height/100)^x_lm),                  ## fitted_LMI (kg/m^x_lm)
-    # fitted_ALMI            = (LM_arm + LM_leg) / ((height/100)^x_alm),  ## fitted_ALMI (kg/m^x_alm)
-    # fitted_BMI             = weight / ((height/100)^x_bmi)              ## fitted_BMI (kg/m^x_bmi)
-    # VAT_mass               = (?)                                        ## VAT_mass (g)
+    # fitted_FMI             = FM / ((height/100)^x_fm), ## fitted_FMI (kg/m^x_fm)
+    # fitted_LMI             = LM / ((height/100)^x_lm), ## fitted_LMI (kg/m^x_lm)
+    # fitted_ALMI            = (LM_arm + LM_leg) / ((height/100)^x_alm), ## fitted_ALMI (kg/m^x_alm)
+    # fitted_BMI             = weight / ((height/100)^x_bmi) ## fitted_BMI (kg/m^x_bmi)
+    # VAT_mass               = (?) ## VAT_mass (g)
   ) %>%
   ## Keep only relevant columns for zscore computation
   dplyr::select(
@@ -57,17 +57,17 @@ dxa_data <- readxl::read_excel(dxa_path, col_names = TRUE) %>%
     age,
     appendicular_LMI,
     BMI,
-    FM_android_quotient_gynoid,
+    # FM_android_quotient_gynoid,
     FM_trunk_quotient_limb,
     FMI,
-    #  fitted_ALMI,
-    #  fitted_BMI,
-    #  fitted_FMI,
-    #  fitted_LMI,
+    # fitted_ALMI,
+    # fitted_BMI,
+    # fitted_FMI,
+    # fitted_LMI,
     gender,
     height,
     LMI,
-    #  VAT_mass,
+    # VAT_mass,
     weight,
     percent_FM
   )
