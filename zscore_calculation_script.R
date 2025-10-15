@@ -6,7 +6,7 @@ library(tidyr)
 
 # --- Load external functions ---------------------------------------------------
 source("compute_zscores.R")
-source("create_plot.R")
+source("vis_functions.R")
 
 # --- Define input & output paths -----------------------------------------------
 dxa_path <- "/Volumes/auditing-groupdirs/SUN-CBMR-HOLBAEK/database freeze/2023_March/DXA-scans_ALL/dexa_sub.v.03.2023.xlsx"
