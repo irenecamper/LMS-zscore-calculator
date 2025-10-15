@@ -14,65 +14,68 @@ dxa_path <- "/Volumes/auditing-groupdirs/SUN-CBMR-HOLBAEK/database freeze/2023_M
 
 # --- Load and prepare DXA data -------------------------------------------------
 dxa_data <- readxl::read_excel(dxa_path, col_names = TRUE) %>%
-  ## Rename variables --> `new_column_name = old_column_name`
+  # Rename variables --> `new_column_name = old_column_name`
   dplyr::rename(
-    PATID      = pat_ID,
-    percent_FM = fat_percent,
-    gender     = dexa_gender,
-    age        = dexa_age,
-    FM         = `Total Fedtmasse`,
-    height     = `dexa_height`,
-    weight     = `dexa_weight`,
-    LM         = `Total Fedtfri masse`,
-    LM_arm     = `Arme Fedtfri masse`,
-    LM_leg     = `Ben Fedtfri masse`,
-    FM_arm     = `Arme Fedtmasse`,
-    FM_leg     = `Ben Fedtmasse`,
-    FM_trunk   = `Truncus diff Fedtmasse`
+    PATID      = pat_ID, ## PATID
+    percent_FM = fat_percent, ## % fat mass (%)
+    gender     = dexa_gender, ## gender : male (1) or female (2)
+    age        = dexa_age, ## age (years)
+    FM         = `Total Fedtmasse`, ## total fat mass (kg)
+    height     = `dexa_height`, ## height (cm)
+    weight     = `dexa_weight`, ## weight (kg)
+    LM         = `Total Fedtfri masse`, ## total lean mass (kg)
+    LM_arm     = `Arme Fedtfri masse`, ## arm lean mass (kg)
+    LM_leg     = `Ben Fedtfri masse`, ## leg lean mass (kg)
+    FM_arm     = `Arme Fedtmasse`, ## arm fat mass (kg)
+    FM_leg     = `Ben Fedtmasse`, ## leg fat mass (kg)
+    FM_trunk   = `Truncus diff Fedtmasse` ## trunk fat mass (kg)
   ) %>%
-  ## Recode gender and height to cm
+  # Recode gender variable
   dplyr::mutate(
-    height_m = height / 100,
     gender = dplyr::case_when(
-      gender == 1 ~ 0,  # male (1) --> 0 
-      gender == 2 ~ 1,  # male (2) --> 1
+      gender == 1 ~ 0, # male (1) --> 0
+      gender == 2 ~ 1, # male (2) --> 1
       TRUE ~ NA_real_
     )
   ) %>%
   ## Compute derived body composition variables
   dplyr::mutate(
-    FMI                    = FM / (height_m^2),
-    FM_trunk_quotient_limb = FM_trunk / (FM_arm + FM_leg),
-    LMI                    = LM / (height_m^2),
-    appendicular_LMI       = (LM_arm + LM_leg) / (height_m^2),
-    BMI                    = weight / (height_m^2),
-    # fitted_FMI             = FM / (height^x_fm),
-    # fitted_LMI             = LM / (height^x_lm),
-    # fitted_ALMI            = (LM_arm + LM_leg) / (height^x_alm),
-    # fitted_BMI             = weight / (height^x_bmi)
+    FMI                    = FM / ((height / 100)^2), ## FMI (kg/m^2)
+    FM_trunk_quotient_limb = FM_trunk / (FM_arm + FM_leg), ## FM_trunk_quotient_limb
+    LMI                    = LM / ((height / 100)^2), ## LMI (kg/m^2)
+    appendicular_LMI       = (LM_arm + LM_leg) / (height_m^2), ## appendicular_LMI (kg/m^2)
+    BMI                    = weight / ((height / 100)^2) ## BMI (kg/m^2)
+    # fitted_FMI             = FM / ((height/100)^x_fm),                  ## fitted_FMI (kg/m^x_fm)
+    # fitted_LMI             = LM / ((height/100)^x_lm),                  ## fitted_LMI (kg/m^x_lm)
+    # fitted_ALMI            = (LM_arm + LM_leg) / ((height/100)^x_alm),  ## fitted_ALMI (kg/m^x_alm)
+    # fitted_BMI             = weight / ((height/100)^x_bmi)              ## fitted_BMI (kg/m^x_bmi)
+    # VAT_mass               = (?)                                        ## VAT_mass (g)
   ) %>%
-  ## Keep only relevant columns for z-score computation
+  ## Keep only relevant columns for zscore computation
   dplyr::select(
     PATID,
-    percent_FM,
-    FM_trunk_quotient_limb,
-    LMI,
+    age,
     appendicular_LMI,
     BMI,
+    FM_android_quotient_gynoid,
+    FM_trunk_quotient_limb,
     FMI,
-    # fitted_FMI,
-    # fitted_BMI,
-    # fitted_ALMI,
-    # fitted_LMI,
+    #  fitted_ALMI,
+    #  fitted_BMI,
+    #  fitted_FMI,
+    #  fitted_LMI,
     gender,
-    age,
+    height,
+    LMI,
+    #  VAT_mass,
     weight,
-    height
+    percent_FM
   )
+
 
 # --- Compute zscores -----------------------------------------------------------
 # dxa_data_new will contain the original columns `value` + the corresponding `zscore-value` columns
-dxa_data_new = compute_zscores_file(data = dxa_data)
+dxa_data_new <- compute_zscores_file(data = dxa_data)
 
 # --- Save dxa zscores data -----------------------------------------------------
 # write.csv(dxa_data_new, dxa_zscores_path, row.names = FALSE)
