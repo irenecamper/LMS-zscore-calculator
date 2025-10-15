@@ -1,5 +1,3 @@
-#' Compute zscores for body composition measurements
-#'
 #' Computes zscores for body composition measurements using age- and gender-specific LMS reference files.
 #' Reference files are expected in the `LMS-data/` directory. Returns the original dataframe with added zscore columns.
 #'
