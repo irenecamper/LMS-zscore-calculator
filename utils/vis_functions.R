@@ -114,3 +114,66 @@ plot_percentile_curves <- function(ref_data_path = "LMS_data/",
       )
   }
 }
+
+
+#' Create histogram for body composition measurements
+#'
+#' `create_histogram` generates a histogram for a specified measurement, optionally filtered by
+#' age group and gender. It can also return an empty plot if no data is provided.
+#'
+#' @param age_group Character string: "children" or "adults"
+#' @param value Measurement to plot (must match a key in `measurement_map`)
+#' @param gender Numeric: 0 = Female, 1 = Male
+#' @param data Data frame containing the measurements and columns `age` and `gender`
+#'
+#' @return A `ggplot` histogram or an empty plot if no data available
+create_histogram <- function(age_group = "children", value = "percent_FM", gender = 0, data = NULL) {
+  
+  if (!is.null(data)) {
+
+    # Filter by gender
+    if (!is.null(gender)) {
+        data_filtered <- data %>% dplyr::filter(gender == gender)
+    }
+    
+    # Filter by age group
+    if (!is.null(age_group)) {
+      if (age_group == "children") {
+        data_filtered <- data_filtered %>% dplyr::filter(age = 18)
+      } ifelse(age_group == "adults") {
+        data_filtered <- data_filtered %>% dplyr::filter(age >= 18)
+      }
+    }
+
+  title <- paste("--", age_group_map[age_group], "--", gender_map[as.character(gender)])
+  x_label <- measurement_map[value]
+
+  # Plot
+  data_filtered <- na.omit(data_filtered)
+    
+  if (!is.null(data_filtered) && nrow(data_filtered) > 0 && value %in% colnames(data_filtered)) {
+    p <- ggplot2::ggplot(data_filtered, ggplot2::aes_string(x = value)) +
+      ggplot2::geom_histogram(aes(y = ..density..), binwidth = 5, fill = "steelblue", color = "white") +
+      ggplot2::labs(title = title, x = x_label, y = "Density") +
+      ggplot2::theme_bw() +
+      ggplot2::theme(
+        text = element_text(size = 24),
+        plot.title = element_text(size = 24, hjust = 0.5),
+        axis.title = element_text(size = 20),
+        axis.text = element_text(size = 18),
+        aspect.ratio = 1/2
+      )
+  } else {
+    p <- ggplot2::ggplot() +
+      ggplot2::labs(title = paste("No data for", title)) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(
+        text = element_text(size = 24),
+        plot.title = element_text(size = 24, hjust = 0.5),
+        aspect.ratio = 1/2
+      )
+  }
+  }
+  
+  return(p)
+}
