@@ -9,7 +9,7 @@ source("utils/load_data.R")
 source("utils/compute_zscores.R")
 
 # --- Compute zscores -----------------------------------------------------------
-# dxa_data_new will contain the original columns `value` + the corresponding 
+# dxa_data_new will contain the original columns `value` + the corresponding
 # `zscore-value` columns
 dxa_data_zscores <- compute_zscores(data = dxa_data)
 

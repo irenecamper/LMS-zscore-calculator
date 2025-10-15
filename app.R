@@ -18,7 +18,7 @@ values <- c(
 
 CHOICES <- list(
   value = values,
-  age_group = c("Children" = "children","Adults" = "adults"),
+  age_group = c("Children" = "children", "Adults" = "adults"),
   gender = c("Male" = 1, "Female" = 0)
 )
 
@@ -51,27 +51,27 @@ LEAD_percentile_curves_card <- bslib::navset_card_tab(
   bslib::nav_panel(
     id = "main_tabs",
     # First tab: percentile curves
-      title = "Percentile Curves",
-      bslib::layout_columns(
-        col_widths = c(6,6),
-        bslib::card_body(shiny::plotOutput("percentile_plot_children_male", height = 600)),
-        bslib::card_body(shiny::plotOutput("percentile_plot_children_female", height = 600)),
-        bslib::card_body(shiny::plotOutput("percentile_plot_adults_male", height = 600)),
-        bslib::card_body(shiny::plotOutput("percentile_plot_adults_female", height = 600))
-      )
-    ),
-    # Second tab: histograms
-    bslib::nav_panel(
-      title = "Histograms",
-      bslib::layout_columns(
-        col_widths = c(6,6),
-        bslib::card_body(shiny::plotOutput("histogram_children_male", height = 600)),
-        bslib::card_body(shiny::plotOutput("histogram_children_female", height = 600)),
-        bslib::card_body(shiny::plotOutput("histogram_adults_male", height = 600)),
-        bslib::card_body(shiny::plotOutput("histogram_adults_female", height = 600))
-      )
+    title = "Percentile Curves",
+    bslib::layout_columns(
+      col_widths = c(6, 6),
+      bslib::card_body(shiny::plotOutput("percentile_plot_children_male", height = 600)),
+      bslib::card_body(shiny::plotOutput("percentile_plot_children_female", height = 600)),
+      bslib::card_body(shiny::plotOutput("percentile_plot_adults_male", height = 600)),
+      bslib::card_body(shiny::plotOutput("percentile_plot_adults_female", height = 600))
+    )
+  ),
+  # Second tab: histograms
+  bslib::nav_panel(
+    title = "Histograms",
+    bslib::layout_columns(
+      col_widths = c(6, 6),
+      bslib::card_body(shiny::plotOutput("histogram_children_male", height = 600)),
+      bslib::card_body(shiny::plotOutput("histogram_children_female", height = 600)),
+      bslib::card_body(shiny::plotOutput("histogram_adults_male", height = 600)),
+      bslib::card_body(shiny::plotOutput("histogram_adults_female", height = 600))
     )
   )
+)
 
 
 ui <- bslib::page_navbar(
@@ -88,15 +88,13 @@ ui <- bslib::page_navbar(
     layout_columns(
       col_widths = c(12),
       LEAD_percentile_curves_card
+    )
   )
-)
 )
 
 # SERVER ----
 
 server <- function(input, output, session) {
-
-
   data <- shiny::reactive({
     if (input$include_data) {
       dxa_data
@@ -132,7 +130,7 @@ server <- function(input, output, session) {
   })
 
   output$histogram_children_female <- shiny::renderPlot({
-      create_histogram(age_group = "children", value = input$value, gender = 1, include_data = input$include_data, data = dxa_data)
+    create_histogram(age_group = "children", value = input$value, gender = 1, include_data = input$include_data, data = dxa_data)
   })
 
   output$histogram_adults_male <- shiny::renderPlot({
@@ -143,7 +141,6 @@ server <- function(input, output, session) {
     create_histogram(age_group = "adults", value = input$value, gender = 1, include_data = input$include_data, data = dxa_data)
   })
 
-  
+
   ## table rendering ---
-  
 }
