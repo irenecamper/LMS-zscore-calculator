@@ -8,17 +8,18 @@ library(tidyr)
 source("utils/vis_functions.R")
 source("utils/load_data.R")
 
-plot_percentile_curves(
+p <- plot_percentile_curves(
   ref_data_path = "LMS_data/",
   age_group = "children",
   measurement = "percent_FM",
   gender = 0
 )
+print(p)
 
 create_histogram(
-  age_group = "children",
+  age_group = NULL,
   value = "percent_FM",
-  gender = 0,
+  gender = NULL,
   data = dxa_data
 )
 

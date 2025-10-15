@@ -133,14 +133,16 @@ create_histogram <- function(age_group = "children", value = "percent_FM", gende
 
     # Filter by gender
     if (!is.null(gender)) {
-        data_filtered <- data %>% dplyr::filter(gender == gender)
+      data_filtered <- data %>% dplyr::filter(gender == gender)
+    } else {
+      data_filtered <- data
     }
     
     # Filter by age group
     if (!is.null(age_group)) {
       if (age_group == "children") {
-        data_filtered <- data_filtered %>% dplyr::filter(age = 18)
-      } ifelse(age_group == "adults") {
+        data_filtered <- data_filtered %>% dplyr::filter(age < 18)
+      } else if (age_group == "adults") {
         data_filtered <- data_filtered %>% dplyr::filter(age >= 18)
       }
     }
