@@ -1,5 +1,5 @@
 
-create_plot <- function(ref_data_path = "../data/", age_group = "children", value = "percent_FM", gender = 0) {
+create_plot <- function(ref_data_path = "../LMS_data/", age_group = "children", value = "percent_FM", gender = 0) {
 
   reference_filename <- paste0(ref_data_path, age_group, "_LMS_", value, "_gender", as.character(gender), ".csv")[1]
 

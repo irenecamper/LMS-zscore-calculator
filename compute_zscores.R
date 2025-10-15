@@ -1,26 +1,37 @@
 library(dplyr)
 
-# This function computes Z-scores for specified measurements based on
-# the reference values extracted from an age- and gender-specific LMS_data reference
-# files in data/. It takes as input the reference data, processes it
-# according to specified age groups and genders, and outputs an updated data
-# frame with the computed Z-scores.
-# column names for this function to work should be:
-## gender : male (0) or female (1)
-## age
-## percent_FM
-## FMI
-## LMI
+# This function computes zscores for specified measurements based on
+# reference values extracted from age- and gender-specific LMS reference
+# files located in the LMS-data/ directory. It takes as input the measurement
+# data, processes it according to specified age groups and genders, and
+# outputs an updated dataframe with the computed zscores.
+#
+# Column names of the input data (not all required) need to have these names:
+## PATID
+## age (years)
 ## appendicular_LMI
-## ...
+## BMI (kg/m^2)
+## FM_android_quotient_gynoid
+## FM_trunk_quotient_limb
+## FMI (kg/m^2)
+## fitted_ALMI (kg/m^x)
+## fitted_BMI (kg/m^x)
+## fitted_FMI (kg/m^x)
+## fitted_LMI (kg/m^x)
+## gender : male (0) or female (1)
+## height (cm)
+## LMI (kg/m^2)
+## VAT_mass (g)
+## weight (kg)
+## percent_FM (%)
+#
 
 compute_zscores_file <- function(data,
-                                 datapath = "data/",
+                                 datapath = "LMS_data/",
                                  min_age = 6.0,
                                  max_age = 82.0,
                                  child_adult_split = 18.0,
-                                 eps = 0.001
-                                ) {
+                                 eps = 0.001) {
   if (!("age" %in% colnames(data)) || !("gender" %in% colnames(data))) {
     stop(sprintf("File does not have the columns: age and gender"))
   }
@@ -35,7 +46,7 @@ compute_zscores_file <- function(data,
       new_col <- paste0("zscore-", value)
       # Loop through each gender, i.e. male (0) or female (1)
       for (gender in c(0, 1)) {
-        # Loop through each age group; i.e. children (6-18) or adult (18-82)
+        # Loop through each age group; i.e. children [6, 18) or adult [18, 82)
         for (age_int in list(c(min_age, child_adult_split), c(child_adult_split, max_age))) {
           # Subset the data based on gender and age group.
           # note: we will have 4 data_curr: female-children, female-adult, male-children, male-adult

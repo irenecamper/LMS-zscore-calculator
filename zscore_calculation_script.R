@@ -80,7 +80,7 @@ dxa_data_new = compute_zscores_file(data = dxa_data)
 # --- optional : Visualize reference percentile curves --------------------------
 # Example usage
 # plot <- create_plot(
-#   ref_data_path = "data/",
+#   ref_data_path = "LMS_data/",
 #   age_group = "children",
 #   value = "percent_FM",
 #   gender = 0
