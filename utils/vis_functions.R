@@ -32,7 +32,7 @@ age_group_map <- c("children" = "Children", "adults" = "Adults")
 #'   ref_data_path = "LMS_data/",
 #'   age_group = "children",
 #'   measurement = "percent_FM",
-#'   gender = 0
+#'   gender_value = 0
 #' )
 #'
 #' # Plot Lean Mass Index for adult, males
@@ -40,19 +40,19 @@ age_group_map <- c("children" = "Children", "adults" = "Adults")
 #'   ref_data_path = "LMS_data/",
 #'   age_group = "adults",
 #'   measurement = "LMI",
-#'   gender = 1
+#'   gender_value = 1
 #' )
 #' }
 #'
 plot_percentile_curves <- function(ref_data_path = "LMS_data/",
                                    age_group = "children",
                                    measurement = "percent_FM",
-                                   gender = 0) {
+                                   gender_value = 0) {
   # Construct the LMS CSV filename
-  LMS_data_filename <- paste0(ref_data_path, age_group, "_LMS_", measurement, "_gender", as.character(gender), ".csv")
+  LMS_data_filename <- paste0(ref_data_path, age_group, "_LMS_", measurement, "_gender", as.character(gender_value), ".csv")
 
   # Generate plot title
-  title <- paste("--", age_group_map[age_group], "--", gender_map[as.character(gender)])
+  title <- paste("--", age_group_map[age_group], "--", gender_map[as.character(gender_value)])
 
   if (file.exists(LMS_data_filename)) {
     data_long <- read.csv(LMS_data_filename) %>%
@@ -132,13 +132,13 @@ plot_percentile_curves <- function(ref_data_path = "LMS_data/",
 #' @param data Data frame containing the measurements and columns `age` and `gender`
 #'
 #' @return A `ggplot` histogram or an empty plot if no data available
-create_histogram <- function(age_group = "children", value = "percent_FM", gender = 0, data = NULL) {
+create_histogram <- function(age_group = "children", value = "percent_FM", gender_value = 0, data = NULL) {
   
   if (!is.null(data)) {
 
     # Filter by gender
-    if (!is.null(gender)) {
-      data_filtered <- data %>% dplyr::filter(gender == gender)
+    if (!is.null(gender_value)) {
+      data_filtered <- data %>% dplyr::filter(gender == gender_value)
     } else {
       data_filtered <- data
     }
@@ -152,7 +152,7 @@ create_histogram <- function(age_group = "children", value = "percent_FM", gende
       }
     }
 
-  title <- paste("--", age_group_map[age_group], "--", gender_map[as.character(gender)])
+  title <- paste("--", age_group_map[age_group], "--", gender_map[as.character(gender_value)])
   x_label <- measurement_map[value]
 
   # Plot
@@ -210,7 +210,7 @@ create_histogram <- function(age_group = "children", value = "percent_FM", gende
 #'   ref_data_path = "LMS_data/",
 #'   age_group = "children",
 #'   measurement = "percent_FM",
-#'   gender = 0,
+#'   gender_value = 0,
 #'   data = df
 #' )
 #' }
@@ -218,22 +218,25 @@ create_histogram <- function(age_group = "children", value = "percent_FM", gende
 plot_percentile_with_points <- function(ref_data_path = "LMS_data/",
                                         age_group = "children",
                                         measurement = "percent_FM",
-                                        gender = 0,
+                                        gender_value = 0,
                                         data = NULL) {
   
   base_plot <- plot_percentile_curves(
     ref_data_path = ref_data_path,
     age_group = age_group,
     measurement = measurement,
-    gender = gender
+    gender = gender_value
   )
 
+  
   # If data provided, filter for matching gender and age group
   if (!is.null(data) && measurement %in% colnames(data)) {
     data_filtered <- data %>%
-      dplyr::filter(gender == gender) %>%
+      dplyr::filter(gender == gender_value) %>%
       dplyr::filter(if (age_group == "children") age < 18 else age >= 18) %>%
       dplyr::select(age, !!rlang::sym(measurement))
+
+    print(nrow(data_filtered))
     
     # Overlay data points
     if (nrow(data_filtered) > 0) {

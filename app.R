@@ -1,6 +1,11 @@
 
 library(shiny)
 library(bslib)
+library(ggplot2)
+
+
+source("utils/vis_functions.R")
+source("utils/load_data.R")
 
 # Parameters ----
 values <- c(
@@ -31,7 +36,7 @@ PRIMARY <- "#CCC5BD"
 # UI ----
 
 LEAD_percentile_curves_card <- bslib::navset_card_tab(
-  height = 800,
+  height = 1600,
   sidebar = sidebar(
     width = 200,
     open = TRUE,
@@ -44,11 +49,6 @@ LEAD_percentile_curves_card <- bslib::navset_card_tab(
         plugins = "remove_button",
         closeAfterSelect = TRUE
       )
-    ),
-    shiny::checkboxInput(
-      "include_data",
-      "Plot Holbaek data",
-      value = TRUE
     )
   ),
   # Two tabs inside the main area
@@ -58,10 +58,10 @@ LEAD_percentile_curves_card <- bslib::navset_card_tab(
     title = "Percentile Curves",
     bslib::layout_columns(
       col_widths = c(6, 6),
-      bslib::card_body(shiny::plotOutput("percentile_plot_children_male", height = 600)),
-      bslib::card_body(shiny::plotOutput("percentile_plot_children_female", height = 600)),
-      bslib::card_body(shiny::plotOutput("percentile_plot_adults_male", height = 600)),
-      bslib::card_body(shiny::plotOutput("percentile_plot_adults_female", height = 600))
+      bslib::card_body(shiny::plotOutput("percentile_plot_children_male", height = 800)),
+      bslib::card_body(shiny::plotOutput("percentile_plot_children_female", height = 800)),
+      bslib::card_body(shiny::plotOutput("percentile_plot_adults_male", height = 800)),
+      bslib::card_body(shiny::plotOutput("percentile_plot_adults_female", height = 800))
     )
   ),
   # Second tab: histograms
@@ -109,42 +109,85 @@ server <- function(input, output, session) {
 
   ## plot rendering ---
   output$percentile_plot_children_male <- shiny::renderPlot({
-    plot <- create_plot(age_group = "children", value = input$value, gender = 0, include_data = input$include_data, data = dxa_data)
-    plot
+    plot_percentile_with_points(
+      ref_data_path = "LMS_data/",
+      age_group = "children",
+      measurement = input$value,
+      gender_value =0,
+      data = dxa_data
+    )
+
   })
 
   output$percentile_plot_children_female <- shiny::renderPlot({
-    plot <- create_plot(age_group = "children", value = input$value, gender = 1, include_data = input$include_data, data = dxa_data)
-    plot
+    plot_percentile_with_points(
+      ref_data_path = "LMS_data/",
+      age_group = "children",
+      measurement = input$value,
+      gender_value =1,
+      data = dxa_data
+    )
   })
 
   output$percentile_plot_adults_male <- shiny::renderPlot({
-    plot <- create_plot(age_group = "adults", value = input$value, gender = 0, include_data = input$include_data, data = dxa_data)
-    plot
+    plot_percentile_with_points(
+      ref_data_path = "LMS_data/",
+      age_group = "adults",
+      measurement = input$value,
+      gender_value =0,
+      data = dxa_data
+    )
   })
 
   output$percentile_plot_adults_female <- shiny::renderPlot({
-    plot <- create_plot(age_group = "adults", value = input$value, gender = 1, include_data = input$include_data, data = dxa_data)
-    plot
+    plot_percentile_with_points(
+      ref_data_path = "LMS_data/",
+      age_group = "adults",
+      measurement = input$value,
+      gender_value =1,
+      data = dxa_data
+    )
   })
 
   output$histogram_children_male <- shiny::renderPlot({
-    plot <- create_histogram(age_group = "children", value = input$value, gender = 0, include_data = input$include_data, data = dxa_data)
-    plot
+    create_histogram(
+      age_group = "children",
+      value = input$value,
+      gender_value =0,
+      data = dxa_data
+    )
   })
 
   output$histogram_children_female <- shiny::renderPlot({
-    create_histogram(age_group = "children", value = input$value, gender = 1, include_data = input$include_data, data = dxa_data)
+    create_histogram(
+      age_group = "children",
+      value = input$value,
+      gender_value =1,
+      data = dxa_data
+    )
   })
 
+
   output$histogram_adults_male <- shiny::renderPlot({
-    create_histogram(age_group = "adults", value = input$value, gender = 0, include_data = input$include_data, data = dxa_data)
+    create_histogram(
+      age_group = "adults",
+      value = input$value,
+      gender_value =0,
+      data = dxa_data
+    )
   })
 
   output$histogram_adults_female <- shiny::renderPlot({
-    create_histogram(age_group = "adults", value = input$value, gender = 1, include_data = input$include_data, data = dxa_data)
+    create_histogram(
+      age_group = "adults",
+      value = input$value,
+      gender_value =1,
+      data = dxa_data
+    )
   })
-
 
   ## table rendering ---
 }
+
+
+shinyApp(ui, server)
