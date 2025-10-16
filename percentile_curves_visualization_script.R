@@ -8,18 +8,25 @@ library(tidyr)
 source("utils/vis_functions.R")
 source("utils/load_data.R")
 
-p <- plot_percentile_curves(
+plot_percentile_curves(
   ref_data_path = "LMS_data/",
   age_group = "children",
   measurement = "percent_FM",
   gender = 0
 )
-print(p)
 
 create_histogram(
-  age_group = NULL,
+  age_group = "NULL",
   value = "percent_FM",
-  gender = NULL,
+  gender = 0,
   data = dxa_data
 )
 
+# Example assuming you have df with columns: age, gender, percent_FM, etc.
+plot_percentile_with_points(
+  ref_data_path = "LMS_data/",
+  age_group = "children",
+  measurement = "percent_FM",
+  gender = 0,
+  data = dxa_data
+)

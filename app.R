@@ -1,3 +1,7 @@
+
+library(shiny)
+library(bslib)
+
 # Parameters ----
 values <- c(
   "Fat Mass Index"                = "FMI",
