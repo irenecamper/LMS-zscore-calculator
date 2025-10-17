@@ -1,20 +1,21 @@
-# LMS-zscore-calculator
-This repository contains R code for calculating Z-scores from measurement data based on age and gender-specific reference values.
-
 ## Overview
-The script `zscore_calculation_script.R` computes standardized Z-scores for DXA-based measurements using LMS model outputs adapted from the Austrian LEAD Study. It also allows visualization of the reference percentile curves for any measurement, age group, and gender, using the provided `create_plot()` function.
+The script `zscore_calculation_script.R` computes standardized Z-scores for DXA-based measurements using LMS model outputs adapted from the Austrian LEAD Study.
 
 The approach derives from [the scientific LMS Z-Score App](https://github.com/FlorianKrach/scientific-LMS-zscore-app), which utilizes LMS methodology originally implemented in Python. The data files are sourced from resources in the original repository.
 
-## Requirements
-- **R**: Version 4.0 or higher recommended
-- **Required R packages**:
-  ```r
-  install.packages(c("dplyr", "readxl", "ggplot2", "tidyr"))
-  ```
+The script `percentile_curves_visualization_script.R` allows visualization of the reference percentile curves for any measurement, age group, and gender from the the Austrian LEAD Study + the measurements of the Holbaek children.
+
+The script `app.R` defines an interactive Shiny web application for exploring DXA-based reference data from the Austrian LEAD Study, and illustrating where the Holbaek children’s measurements fall within the reference percentiles.
 
 ## Data
-LMS values and percentile curves for children and adults can be found at [the following link: [LMS Z-Score App Data]](https://github.com/FlorianKrach/scientific-LMS-zscore-app/tree/master/data). The relevant outputs have been saved in the `data/` folder in this repository.
+LMS values and percentile curves for children and adults can be found at [the following link: [LMS Z-Score App Data]](https://github.com/FlorianKrach/scientific-LMS-zscore-app/tree/master/data). The relevant outputs have been saved in the `LMS_data/` folder in this repository.
+
+
+## Requirements
+- **Required R packages**:
+  ```r
+  install.packages(c("dplyr", "readxl", "ggplot2", "tidyr", "shiny", "bslib"))
+  ```
 
 ## Calculated Z-Scores
 The script determines Z-scores for the following measurements:
@@ -23,8 +24,6 @@ The script determines Z-scores for the following measurements:
 * DXA Z-scores for Lean Mass Index (LMI) (available for 6-18-year-olds & 18-81-year-olds)
 * DXA Z-scores for Appendicular Lean Mass Index (ALMI) (available for 6-18-year-olds & 18-81-year-olds)
 * DXA Z-scores for Trunk/Limb Fat Mass Ratio (available for 6-18-year-olds & 18-81-year-olds)
-
-## Limitations
 Please note that the following Z-scores are not currently generated.
 * Z-scores for Waist Circumference
 * Z-scores for Hip Circumference

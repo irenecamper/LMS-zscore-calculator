@@ -1,13 +1,13 @@
-
+# --- Load libraries ------------------------------------------------------------
 library(shiny)
 library(bslib)
 library(ggplot2)
 
-
+# --- Load DXA data and external functions --------------------------------------
 source("utils/vis_functions.R")
 source("utils/load_data.R")
 
-# Parameters ----
+# --- Parameters ----
 values <- c(
   "Fat Mass Index"                = "FMI",
   "Lean Mass Index"               = "LMI",
@@ -33,7 +33,7 @@ CHOICES <- list(
 
 PRIMARY <- "#CCC5BD"
 
-# UI ----
+# --- UI ----
 
 LEAD_percentile_curves_card <- bslib::navset_card_tab(
   height = 1600,
@@ -51,10 +51,8 @@ LEAD_percentile_curves_card <- bslib::navset_card_tab(
       )
     )
   ),
-  # Two tabs inside the main area
   bslib::nav_panel(
     id = "main_tabs",
-    # First tab: percentile curves
     title = "Percentile Curves",
     bslib::layout_columns(
       col_widths = c(6, 6),
@@ -64,7 +62,6 @@ LEAD_percentile_curves_card <- bslib::navset_card_tab(
       bslib::card_body(shiny::plotOutput("percentile_plot_adults_female", height = 800))
     )
   ),
-  # Second tab: histograms
   bslib::nav_panel(
     title = "Histograms",
     bslib::layout_columns(
