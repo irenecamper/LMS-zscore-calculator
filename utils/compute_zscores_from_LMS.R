@@ -1,54 +1,31 @@
-#' Computation of zscores
+#' Compute z-scores from LMS reference files
 #'
 #' @description
-#' `compute_zscores` computes zscores for body composition measurements using age- and gender-specific LMS reference files.
-#' Reference files are expected in the `LMS-data/` directory. Returns the original dataframe with added zscore columns.
+#' Computes z-scores for body composition measurements using age- and gender-specific LMS reference files.
+#' Reference files must be located in the `LMS_data/` directory.
 #'
-#' @param data A `data.frame` containing measurement data. Must include at least:
-#'   \describe{
-#'     \item{PATID}{unique participant ID (not required but recommended)}
-#'     \item{age}{age in years}
-#'     \item{gender}{0 for female, 1 for male}
-#'     \item{appendicular_LMI, BMI, FM_android_quotient_gynoid, FM_trunk_quotient_limb,
-#'           FMI, fitted_ALMI, fitted_BMI, fitted_FMI, fitted_LMI, LMI, VAT_mass, weight,
-#'           height, percent_FM}{Optional measurement columns (not all required)}
-#'   }
-#' @param datapath Path to LMS reference data directory. Default: `"LMS_data/"`
-#' @param min_age Minimum age for reference data (default 6.0)
-#' @param max_age Maximum age for reference data (default 82.0)
-#' @param child_adult_split Age to split children vs adults (default 18.0)
-#' @param eps Small number to handle zero lambda values (default 0.001)
+#' @param data A `data.frame` containing at least columns `age` and `gender`.
+#' @param datapath Directory path to LMS reference CSV files (default `"LMS_data/"`).
+#' @param min_age Minimum reference age (default 6.0).
+#' @param max_age Maximum reference age (default 82.0).
+#' @param child_adult_split Age threshold between child/adult references (default 18.0).
+#' @param eps Small value to avoid division by zero when lambda ≈ 0 (default 0.001).
 #'
-#' @return A `data.frame` identical to input, with additional columns for zscores named `zscore_<measurement>`.
+#' @return A `data.frame` with additional `zscore_<measurement>` columns.
 #'
-#' @details
-#' The function loops through all measurement columns (except `age`, `gender`, `PATID`)
-#' and computes zscores for each combination of gender and age group. Missing LMS files or missing columns result in `NA` values.
-#'
-#' @examples
-#' \dontrun{
-#' library(readxl)
-#' data <- readxl::read_excel("example_file.xlsx")
-#' data_zscores <- compute_zscores_file(data = data, datapath = "LMS-data/")
-#' write.csv(data_zscores, "data_zscores.csv", row.names = FALSE)
-#' }
-compute_zscores <- function(data,
+compute_zscores_from_LMS_data <- function(data,
                             datapath = "LMS_data/",
                             min_age = 6.0,
                             max_age = 82.0,
                             child_adult_split = 18.0,
                             eps = 0.001) {
-  if (!("age" %in% colnames(data)) || !("gender" %in% colnames(data))) {
+  if (!all(c("age", "gender") %in% names(data))) {
     stop(sprintf("File does not have the columns: age and gender"))
   }
 
-  # Loop through each column in the data frame
   for (value in colnames(data)) {
-    # Check if the column is not one of the measurements of interest
     if (!(value %in% c("age", "gender", "PATID"))) {
-      # Print the measurement being processed
-      cat(sprintf("Computing zscores for: %s\n", value))
-      # Create new column name
+      message("Computing z-scores for: ", value)
       new_col <- paste0("zscore_", value)
       # Loop through each gender, i.e. male (0) or female (1)
       for (gender in c(0, 1)) {
@@ -58,9 +35,8 @@ compute_zscores <- function(data,
           # note: we will have 4 data_curr: female-children, female-adult, male-children, male-adult
           data_curr <- data[data[["age"]] >= age_int[1] & data[["age"]] < age_int[2] & data[["gender"]] == gender, ]
 
-          # Check if the current data frame is not empty
           if (nrow(data_curr) > 0) {
-            # Extract y_vals and t_vals from the data frame
+
             y_vals <- data_curr[[value]] # measured response variable
             t_vals <- data_curr[["age"]] # predictor variable
 
@@ -74,8 +50,8 @@ compute_zscores <- function(data,
             }
 
             if (file.exists(LMS_data_file_name)) {
-              column_names <- c("age", "lambda", "mu", "sigma")
-              LMS_data <- as.data.frame(read.csv(LMS_data_file_name, header = TRUE)) %>%
+              
+              LMS_data <- as.data.frame(read.csv(LMS_data_file_name, header = TRUE)) |>
                 dplyr::select("age", "lambda", "sigma", "mu")
 
               LMS_data <- as.data.frame(LMS_data)

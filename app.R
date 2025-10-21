@@ -7,7 +7,7 @@ library(ggplot2)
 source("utils/vis_functions.R")
 source("utils/load_data.R")
 
-# --- Parameters ----
+# --- Parameters ----------------------------------------------------------------
 values <- c(
   "Fat Mass Index"                = "FMI",
   "Lean Mass Index"               = "LMI",
@@ -33,7 +33,7 @@ CHOICES <- list(
 
 PRIMARY <- "#CCC5BD"
 
-# --- UI ----
+# --- UI ------------------------------------------------------------------------
 
 LEAD_percentile_curves_card <- bslib::navset_card_tab(
   height = 1600,
@@ -93,7 +93,7 @@ ui <- bslib::page_navbar(
   )
 )
 
-# SERVER ----
+# --- SERVER --------------------------------------------------------------------
 
 server <- function(input, output, session) {
   data <- shiny::reactive({
@@ -104,7 +104,7 @@ server <- function(input, output, session) {
     }
   })
 
-  ## plot rendering ---
+  ## --- plot rendering ---
   output$percentile_plot_children_male <- shiny::renderPlot({
     plot_percentile_with_points(
       ref_data_path = "LMS_data/",
@@ -183,7 +183,7 @@ server <- function(input, output, session) {
     )
   })
 
-  ## table rendering ---
+  ## --- table rendering ---
 }
 
 

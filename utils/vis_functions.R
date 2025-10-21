@@ -25,25 +25,6 @@ age_group_map <- c("children" = "Children", "adults" = "Adults")
 #' and gender. It reshapes the data into long format for plotting, then uses `ggplot2` to create
 #' the percentile curves. Labels for each percentile are displayed at the right end of the plot.
 #'
-#' @examples
-#' \dontrun{
-#' # Plot Percent Fat Mass for children, females
-#' plot_percentile_curves(
-#'   ref_data_path = "LMS_data/",
-#'   age_group = "children",
-#'   measurement = "percent_FM",
-#'   gender_value = 0
-#' )
-#'
-#' # Plot Lean Mass Index for adult, males
-#' plot_percentile_curves(
-#'   ref_data_path = "LMS_data/",
-#'   age_group = "adults",
-#'   measurement = "LMI",
-#'   gender_value = 1
-#' )
-#' }
-#'
 plot_percentile_curves <- function(ref_data_path = "LMS_data/",
                                    age_group = "children",
                                    measurement = "percent_FM",
@@ -203,18 +184,7 @@ create_histogram <- function(age_group = "children", value = "percent_FM", gende
 #'
 #' @return A ggplot object showing percentile curves with overlaid data points.
 #'   If reference data or observed data is missing, a fallback message is shown.
-#'
-#' @examples
-#' \dontrun{
-#' plot_percentile_with_points(
-#'   ref_data_path = "LMS_data/",
-#'   age_group = "children",
-#'   measurement = "percent_FM",
-#'   gender_value = 0,
-#'   data = df
-#' )
-#' }
-#'
+#' 
 plot_percentile_with_points <- function(ref_data_path = "LMS_data/",
                                         age_group = "children",
                                         measurement = "percent_FM",
