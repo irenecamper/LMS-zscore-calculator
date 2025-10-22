@@ -22,8 +22,8 @@ compute_zscores_from_ref_data <- function(data, ref_data, values = c("waist", "h
 
     for (gender_value in c(0, 1)) {
       ref_data_curr <- ref_data |>
-        filter(gender == gender_value) |>
-        select(PATID, age, !!sym(value), gender) |>
+        dplyr::filter(gender == gender_value) |>
+        dplyr::select(PATID, age, !!sym(value), gender) |>
         na.omit()
 
       gamlss_model <- suppressWarnings(

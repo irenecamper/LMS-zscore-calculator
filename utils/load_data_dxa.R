@@ -29,13 +29,13 @@ dxa_path <- "/Volumes/auditing-groupdirs/SUN-CBMR-HOLBAEK/database freeze/2023_M
 
 # --- Load and prepare DXA data -----------------------------------------------
 dxa_data <- read_excel(dxa_path, col_names = TRUE) |>
-  mutate(
+  dplyr::mutate(
     age = as.numeric(difftime(as.Date(dexa_date, format = "%Y-%m-%d"),
                               as.Date(dexa_birth_date, format = "%Y-%m-%d"),
                               units = "days")) / 365.25
   ) |>
   # --- Rename variables ------------------------------------------------------
-  rename(
+  dplyr::rename(
     PATID      = pat_ID,                     # Unique participant ID
     percent_FM = fat_percent,                # % fat mass
     gender     = dexa_gender,                # Gender: male (1) / female (2)
@@ -50,14 +50,14 @@ dxa_data <- read_excel(dxa_path, col_names = TRUE) |>
     weight     = dexa_weight                 # Weight (kg)
   ) |>
   # --- Recode gender ---------------------------------------------------------
-  mutate(
+  dplyr::mutate(
     gender = case_when(
       gender == 1 ~ 0,  # male   → 0
       gender == 2 ~ 1   # female → 1
     )
   ) |>
   # --- Compute derived indices ----------------------------------------------
-  mutate(
+  dplyr::mutate(
     FMI                    = FM / ((height / 100)^2),              # Fat Mass Index (kg/m^2)
     LMI                    = LM / ((height / 100)^2),              # Lean Mass Index (kg/m^2)
     appendicular_LMI       = (LM_arm + LM_leg) / ((height / 100)^2), # Appendicular Lean Mass Index (kg/m^2)
@@ -65,7 +65,7 @@ dxa_data <- read_excel(dxa_path, col_names = TRUE) |>
     FM_trunk_quotient_limb = FM_trunk / (FM_arm + FM_leg)          # Trunk/Limb fat ratio
   ) |>
   # --- Select relevant columns ----------------------------------------------
-  select(
+  dplyr::select(
     PATID,
     age,
     gender,

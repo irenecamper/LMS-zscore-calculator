@@ -23,11 +23,16 @@ ref_data_path <- "/Volumes/auditing-groupdirs/SUN-CBMR-HOLBAEK/data analysis/dat
 example_path  <- "example_file.xlsx"  # Replace with actual HOLBAEK data path
 
 # --- Load and prepare reference data -----------------------------------------
-ref_data <- read.csv2(ref_data_path, as.is = TRUE, na.strings = c("", "NA")) |>
-  rename(
+ref_data <- utils::read.csv2(ref_data_path, as.is = TRUE, na.strings = c("", "NA")) |>
+  dplyr::mutate(
+    age = as.numeric(difftime(as.Date(visit_date, format = "%Y-%m-%d"),
+                              as.Date(birth_date, format = "%Y-%m-%d"),
+                              units = "days")) / 365.25
+  ) |>
+  dplyr::rename(
     PATID = pat_ID                   # Unique participant ID
   ) |>
-  mutate(
+  dplyr::mutate(
     gender = case_when(              # Recode gender: male = 0, female = 1
       gender == 1 ~ 0,
       gender == 2 ~ 1,
@@ -35,11 +40,11 @@ ref_data <- read.csv2(ref_data_path, as.is = TRUE, na.strings = c("", "NA")) |>
     ),
     WHR = ifelse(hip > 0, waist / hip, NA_real_)  # Waist-to-hip ratio
   ) |>
-  select(PATID, age, gender, height, waist, hip, WHR)
+  dplyr::select(PATID, age, gender, height, waist, hip, WHR)
 
 # --- Load and prepare example data -------------------------------------------
-example_data <- read_excel(example_path) |>
-  select(age, gender, waist, hip) |>
-  mutate(
+example_data <- readxl::read_excel(example_path) |>
+  dplyr::select(age, gender, waist, hip) |>
+  dplyr::mutate(
     WHR = ifelse(hip > 0, waist / hip, NA_real_)  # Waist-to-hip ratio
   )
