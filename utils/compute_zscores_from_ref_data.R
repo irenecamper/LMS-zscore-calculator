@@ -30,7 +30,7 @@ compute_zscores_from_ref_data <- function(data, ref_data, values = c("waist", "h
         suppressMessages(gamlss::gamlss(
           as.formula(paste(value, "~ pb(age)")),
           data = ref_data_curr,
-          family = gamlss::BCPE
+          family = BCPE
         ))
       )
 

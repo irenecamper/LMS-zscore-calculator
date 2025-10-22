@@ -29,12 +29,16 @@ dxa_path <- "/Volumes/auditing-groupdirs/SUN-CBMR-HOLBAEK/database freeze/2023_M
 
 # --- Load and prepare DXA data -----------------------------------------------
 dxa_data <- read_excel(dxa_path, col_names = TRUE) |>
+  mutate(
+    age = as.numeric(difftime(as.Date(dexa_date, format = "%Y-%m-%d"),
+                              as.Date(dexa_birth_date, format = "%Y-%m-%d"),
+                              units = "days")) / 365.25
+  ) |>
   # --- Rename variables ------------------------------------------------------
   rename(
     PATID      = pat_ID,                     # Unique participant ID
     percent_FM = fat_percent,                # % fat mass
     gender     = dexa_gender,                # Gender: male (1) / female (2)
-    age        = dexa_age,                   # Age (years)
     FM         = `Total Fedtmasse`,          # Total fat mass (kg)
     LM         = `Total Fedtfri masse`,      # Total lean mass (kg)
     FM_arm     = `Arme Fedtmasse`,           # Arm fat mass (kg)
