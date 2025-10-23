@@ -106,12 +106,22 @@ plot_percentile_with_points <- function(ref_data_path = "LMS_data/",
     data_filtered <- data %>%
       dplyr::filter(gender == gender_value,
                     (age_group == "children" & age < 18) | (age_group == "adults" & age >= 18)) %>%
-      dplyr::select(age, !!y_col)
+      dplyr::select(age, !!y_col, PATID) %>%
+      dplyr::mutate(label_text = paste0("PATID = ", PATID, "; ", measurement, " = ", round(!!y_col), "; age = ", round(age)))
+
 
     if (nrow(data_filtered) > 0) {
       base_plot <- base_plot +
         ggplot2::geom_point(data = data_filtered, aes(x = age, y = !!y_col),
-                            inherit.aes = FALSE, color = "#DD4132", size = 1, alpha = 0.8)
+                            inherit.aes = FALSE, color = "#DD4132", size = 1, alpha = 0.8) +
+        ggrepel::geom_label_repel(
+          data = data_filtered,
+          aes(x = age, y = !!y_col, label = label_text),
+          inherit.aes = FALSE,
+          max.overlaps = 500,
+          size = 3,
+          label.padding = unit(0.5, "lines")
+        )
     } else {
       message("No matching data points to plot for the selected group.")
     }
@@ -121,3 +131,5 @@ plot_percentile_with_points <- function(ref_data_path = "LMS_data/",
 
   base_plot
 }
+
+
