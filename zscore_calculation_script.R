@@ -35,7 +35,7 @@ source("utils/load_data_dxa.R")
 data_zscores <- compute_zscores_from_ref_data(
   data = example_data,
   ref_data = ref_data,
-  values = c("hip", "waist", "WHR")
+  values = c("hip", "waist", "waist_hip_ratio", "waist_height_ratio")
 )
 
 dxa_data_zscores <- compute_zscores_from_LMS_data(

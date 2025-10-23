@@ -38,13 +38,15 @@ ref_data <- utils::read.csv2(ref_data_path, as.is = TRUE, na.strings = c("", "NA
       gender == 2 ~ 1,
       TRUE ~ NA_real_
     ),
-    WHR = ifelse(hip > 0, waist / hip, NA_real_)  # Waist-to-hip ratio
+    waist_hip_ratio = ifelse(hip > 0, waist / hip, NA_real_),
+    waist_height_ratio = ifelse(height > 0, waist / height, NA_real_)
   ) |>
-  dplyr::select(PATID, age, gender, height, waist, hip, WHR)
+  dplyr::select(PATID, age, gender, height, waist, hip, waist_hip_ratio, waist_height_ratio)
 
 # --- Load and prepare example data -------------------------------------------
 example_data <- readxl::read_excel(example_path) |>
-  dplyr::select(age, gender, waist, hip) |>
+  dplyr::select(age, gender, waist, hip, height) |>
   dplyr::mutate(
-    WHR = ifelse(hip > 0, waist / hip, NA_real_)  # Waist-to-hip ratio
+    waist_hip_ratio = ifelse(hip > 0, waist / hip, NA_real_),
+    waist_height_ratio = ifelse(height > 0, waist / height, NA_real_) 
   )
