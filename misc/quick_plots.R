@@ -53,3 +53,4 @@ ggplot(dxa_long, aes(x = gender, y = value, color = gender)) +
     aspect.ratio = 1
   ) +
   facet_wrap(~measurement, scales = "free_y", ncol = 3)
+

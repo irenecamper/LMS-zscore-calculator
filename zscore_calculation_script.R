@@ -33,8 +33,8 @@ source("utils/load_data_dxa.R")
 
 # --- Compute z-scores ---------------------------------------------------------
 data_zscores <- compute_zscores_from_ref_data(
-  data = example_data,
-  ref_data = ref_data,
+  data = hospital_data,
+  ref_data = pop_data,
   values = c("hip", "waist", "waist_hip_ratio", "waist_height_ratio")
 )
 

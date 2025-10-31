@@ -113,15 +113,15 @@ plot_percentile_with_points <- function(ref_data_path = "LMS_data/",
     if (nrow(data_filtered) > 0) {
       base_plot <- base_plot +
         ggplot2::geom_point(data = data_filtered, aes(x = age, y = !!y_col),
-                            inherit.aes = FALSE, color = "#DD4132", size = 1, alpha = 0.8) +
-        ggrepel::geom_label_repel(
-          data = data_filtered,
-          aes(x = age, y = !!y_col, label = label_text),
-          inherit.aes = FALSE,
-          max.overlaps = 500,
-          size = 3,
-          label.padding = unit(0.5, "lines")
-        )
+                            inherit.aes = FALSE, color = "#DD4132", size = 1, alpha = 0.8) # +
+        # ggrepel::geom_label_repel(
+          # data = data_filtered,
+          # aes(x = age, y = !!y_col, label = label_text),
+          # inherit.aes = FALSE,
+          # max.overlaps = 1000,
+          # size = 3,
+          # label.padding = unit(0.5, "lines")
+        # )
     } else {
       message("No matching data points to plot for the selected group.")
     }

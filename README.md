@@ -1,6 +1,6 @@
 ## Overview
 
-This repository provides a complete R-based pipeline for computing standardized **Z-scores** for both **DXA-derived** and **anthropometric** measurements. Z-scores for DXA-based measurements using LMS model outputs adapted from the Austrian LEAD Study and anthropometric measurements are derived from Frithioff-Boejsoe_2019. 
+This repository provides a R-based pipeline for computing **Z-scores** for both **DXA-derived** and **anthropometric** measurements. Z-scores for DXA-based measurements using LMS model outputs from the Austrian LEAD Study and anthropometric measurements are derived from Frithioff-Boejsoe_2019. 
 
 The workflow includes:
 

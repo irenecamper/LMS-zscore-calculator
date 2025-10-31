@@ -6,6 +6,7 @@ library(ggplot2)
 # --- Load DXA data and external functions --------------------------------------
 source("utils/vis_functions.R")
 source("utils/load_data.R")
+source("utils/load_data_dxa.R")
 
 # --- Parameters ----------------------------------------------------------------
 values <- c(
@@ -34,7 +35,6 @@ CHOICES <- list(
 PRIMARY <- "#CCC5BD"
 
 # --- UI ------------------------------------------------------------------------
-
 LEAD_percentile_curves_card <- bslib::navset_card_tab(
   height = 1600,
   sidebar = sidebar(
