@@ -32,7 +32,7 @@ source("utils/load_data.R")
 source("utils/load_data_dxa.R")
 
 # --- Compute z-scores ---------------------------------------------------------
-data_zscores <- compute_zscores_from_ref_data(
+hospital_data_zscores <- compute_zscores_from_ref_data(
   data = hospital_data,
   ref_data = pop_data,
   values = c("hip", "waist", "waist_hip_ratio", "waist_height_ratio")
@@ -44,5 +44,5 @@ dxa_data_zscores <- compute_zscores_from_LMS_data(
 )
 
 # --- Optional: Save outputs ---------------------------------------------------
-# write.csv(data_zscores, "data_zscores.csv", row.names = FALSE)
+# write.csv(hospital_data_zscores, "hospital_data_zscores.csv", row.names = FALSE)
 # write.csv(dxa_data_zscores, "dxa_data_zscores.csv", row.names = FALSE)
