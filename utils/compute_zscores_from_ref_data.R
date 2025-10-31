@@ -7,11 +7,11 @@
 #' @param data Data frame with `age`, `gender`, and variables listed in `values`.
 #' @param ref_data Reference data with the same structure as `data`.
 #' @param values Character vector of variables to compute z-scores for.
-#'   Default: `c("waist", "hip", "WHR")`.
+#'   Default: `c("waist", "hip", "waist_hip_ratio", "waist_height_ratio")`.
 #'
 #' @return A data frame with additional `zscore_<variable>` columns.
 #'
-compute_zscores_from_ref_data <- function(data, ref_data, values = c("waist", "hip", "WHR")) {
+compute_zscores_from_ref_data <- function(data, ref_data, values = c("waist", "hip", "waist_hip_ratio", "waist_height_ratio")) {
   if (!requireNamespace("gamlss", quietly = TRUE)) {
     stop("Package 'gamlss' must be installed.")
   }

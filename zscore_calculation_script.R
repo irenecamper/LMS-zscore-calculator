@@ -41,7 +41,10 @@ hospital_data_zscores <- compute_zscores_from_ref_data(
 dxa_data_zscores <- compute_zscores_from_LMS_data(
   data = dxa_data,
   datapath = "LMS_data/"
-)
+) |>
+  dplyr::rename(
+    zscore_BMI_LEAD = zscore_BMI
+  )
 
 # --- Optional: Save outputs ---------------------------------------------------
 # write.csv(hospital_data_zscores, "hospital_data_zscores.csv", row.names = FALSE)

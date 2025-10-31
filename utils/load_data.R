@@ -32,7 +32,6 @@ hospital_data_path <- "/Volumes/auditing-groupdirs/SUN-CBMR-HOLBAEK/database fre
 hospital_basis_data_path <- "/Volumes/auditing-groupdirs/SUN-CBMR-HOLBAEK/database freeze/2023_March/Hospital_based/basis_data_Enhedsbørn.v.03.2023.xlsx"
 
 # --- Load and prepare reference data -----------------------------------------
-
 pop_basis_data <- readxl::read_excel(pop_basis_data_path) |>
   dplyr::select(birth_date, gender, pat_ID)
 
