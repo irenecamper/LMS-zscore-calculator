@@ -1,15 +1,8 @@
 ## Overview
 
-This repository provides a R-based pipeline for computing **Z-scores** for both **DXA-derived** and **anthropometric** measurements. Z-scores for DXA-based measurements using LMS model outputs from the Austrian LEAD Study and anthropometric measurements are derived from Frithioff-Boejsoe_2019. 
+This repository provides a R-based pipeline for computing **Z-scores** for both **DXA-derived** and **anthropometric** measurements. Z-scores for DXA-based measurements using LMS model outputs from the Austrian LEAD Study and anthropometric measurements are derived from reference data, also loaded in the script.
 
-The workflow includes:
-
-- `compute_zscores_from_LMS_data.R` — Computes Z-scores for DXA-based measurements (FMI, LMI, ALMI, %FM, etc.) using LMS reference data.  
-- `compute_zscores_from_ref_data.R` — Computes Z-scores for waist, hip, and waist-to-hip ratio (WHR) using reference population data and GAMLSS models.  
-- `load_data.R` / `load_data_dxa.R` — Load and prepare anthropometric and DXA data for Z-score computation.  
-- `zscore_calculation_script.R` — Main script that loads data, computes Z-scores, and saves the results.  
-- `app.R` — Shiny web application for interactively visualizing reference percentiles and comparing study data.  
-- `percentile_curves_visualization_script.R` — Generates reference percentile curves for visualization.
+The workflow is now consolidated into a single script `zscore_calculation_script.R`, which loads and prepares both DXA and anthropometric data, computes all corresponding Z-scores, and optionally saves the results.
 
 The LMS-based computations are adapted from [the scientific LMS Z-Score App](https://github.com/FlorianKrach/scientific-LMS-zscore-app), which utilizes LMS methodology originally implemented in Python. The data files are sourced from resources in the original repository. LMS values and percentile curves for children and adults can be found at [the following link: [LMS Z-Score App Data]](https://github.com/FlorianKrach/scientific-LMS-zscore-app/tree/master/data). The relevant outputs have been saved in the `LMS_data/` folder in this repository.
 
